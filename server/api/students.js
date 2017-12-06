@@ -31,3 +31,9 @@ router.get('/:studentId', function (req, res, next){
   .then(student => res.json(student))
   .catch(next);
 });
+router.delete('/:studentId', function(req, res, next){
+  const id = +req.params.studentId;
+  Student.destroy({where: { id } })
+  .then(() => res.status(204).end())
+  .catch(next);
+});
