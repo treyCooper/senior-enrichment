@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = require('../db');
+const db = require('../index');
 
 module.exports = db.define('campus', {
   name: {
@@ -13,4 +13,4 @@ module.exports = db.define('campus', {
   description: {
     type: Sequelize.TEXT
   }
-}, {})
+})

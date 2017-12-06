@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = require('../db');
+const db = require('../index');
 
 module.exports = db.define('student', {
   firstName: {
@@ -31,6 +31,5 @@ module.exports = db.define('student', {
       return this.getDataValue('firstName') + ' ' + this.getDataValue('lastName')
     }
   }
-},
-{}
+}
 )
