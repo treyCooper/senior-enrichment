@@ -17,9 +17,17 @@ router.post('/', function (req,res, next){
   .catch(next);
 });
 
-router.get('/:studentId', function (req, res, next){
+router.put('/:studentId', function (req, res,next){
+  const studentId = +req.params.studentId
+  Student.findById(studentId)
+  .then(student => student.update(req.body))
+  .then(res.status(200).send())
+  .catch(next);
+});
 
-  Student.findById(+req.params.studentId)
+router.get('/:studentId', function (req, res, next){
+  const studentId = +req.params.studentId
+  Student.findById(studentId)
   .then(student => res.json(student))
   .catch(next);
 });
