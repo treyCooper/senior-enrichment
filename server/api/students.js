@@ -11,6 +11,13 @@ router.get('/', function (req, res, next){
   .catch(next);
 });
 
+router.get('/:studentId', function (req, res, next){
+  const studentId = +req.params.studentId
+  Student.findById(studentId)
+  .then(student => res.json(student))
+  .catch(next);
+});
+
 router.post('/', function (req,res, next){
   Student.create(req.body)
   .then(student => res.json(student))
@@ -25,12 +32,6 @@ router.put('/:studentId', function (req, res,next){
   .catch(next);
 });
 
-router.get('/:studentId', function (req, res, next){
-  const studentId = +req.params.studentId
-  Student.findById(studentId)
-  .then(student => res.json(student))
-  .catch(next);
-});
 router.delete('/:studentId', function(req, res, next){
   const id = +req.params.studentId;
   Student.destroy({where: { id } })
