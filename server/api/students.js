@@ -11,6 +11,12 @@ router.get('/', function (req, res, next){
   .catch(next);
 });
 
+router.post('/', function (req,res, next){
+  Student.create(req.body)
+  .then(student => res.json(student))
+  .catch(next);
+});
+
 router.get('/:studentId', function (req, res, next){
 
   Student.findById(+req.params.studentId)

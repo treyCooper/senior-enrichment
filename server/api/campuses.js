@@ -10,6 +10,12 @@ router.get('/', function (req, res, next){
   .catch(next);
 });
 
+router.post('/', function (req,res, next){
+  Campus.create(req.body)
+  .then(campus => res.json(campus))
+  .catch(next);
+});
+
 router.get('/:campusId', function (req, res, next){
   Campus.findById(+req.params.campusId)
   .then(campus => res.json(campus))
