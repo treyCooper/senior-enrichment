@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-import SingleStudent from './SingleStudent';
-import store, {} from '../store';
+import SingleStudent from './SingleStudent.jsx';
+//import store, {} from '../store';
 
 export default class Students extends Component {
   constructor () {
     super();
-    this.state = store.getState
+   // this.state = store.getState
   }
 
   render () {
     return (
+      <div>
+      <p>students</p>
       <SingleStudent />
+      </div>
     )
   }
 }

@@ -1,4 +1,29 @@
 import React, { Component } from 'react';
+import Campuses from './Campuses.jsx';
+import Students from './Students.jsx';
+import { HashRouter as Router, Route, Switch, Link } from 'react-router-dom';
+export default class Root extends Component {
+  render () {
+    return (
+      <Router>
+        <div>
+          <div>
+            <p>root</p>
+          </div>
+          <div>
+
+            {/* <Campuses /> */}
+            {/* <Students /> */}
+          </div>
+          <Switch>
+            <Route path="/campuses" component={Campuses} />
+            <Route path="/students" component={Students} />
+          </Switch>
+        </div>
+      </Router>
+    )
+  }
+}
 
 /* The code below does NOT relate to your project.
    This code is just a nice BIG example of how you can make a component.
