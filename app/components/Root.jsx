@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Campuses from './Campuses.jsx';
 import Students from './Students.jsx';
+import SingleCampus from './SingleCampus.jsx';
+import SingleStudent from './SingleStudent.jsx';
 import axios from 'axios';
 import { HashRouter as Router, Route, Switch, Link } from 'react-router-dom';
 export default class Root extends Component {
@@ -52,8 +54,10 @@ export default class Root extends Component {
               </Link>
             </div>
           <Switch>
-            <Route path="/campuses" render={() => <Campuses campuses={this.state.campuses} students={this.state.students}/>} />
-            <Route path="/students" render={() => <Students students={this.state.students} campuses={this.state.campuses}/>} />
+            <Route exact path="/campuses" render={() => <Campuses campuses={this.state.campuses} students={this.state.students}/>} />
+            <Route path="/campuses/:campusId" component={SingleCampus} />
+            <Route exact path="/students" render={() => <Students students={this.state.students} campuses={this.state.campuses}/>} />
+            <Route path="/students/:studentId" component={SingleStudent} />
           </Switch>
         </div>
       </Router>
