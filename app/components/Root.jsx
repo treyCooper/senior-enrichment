@@ -1,27 +1,46 @@
 import React, { Component } from 'react';
 import Campuses from './Campuses.jsx';
 import Students from './Students.jsx';
+import axios from 'axios';
 import { HashRouter as Router, Route, Switch, Link } from 'react-router-dom';
 export default class Root extends Component {
+  constructor () {
+    super();
+    this.state = {
+      campuses: [],
+      students: []
+    };
+  }
+
+  componentDidMount () {
+    axios.get('/api/campuses/')
+      .then(res => res.data)
+      .then(campuses => {
+        console.log(campuses)
+        this.setState({ campuses })
+      });
+  }
   render () {
     return (
       <Router>
         <div>
           <div>
-            <p>root</p>
-          </div>
-          <div>
-
-            {/* <Campuses /> */}
-            {/* <Students /> */}
-          </div>
+              <Link to='/campuses'>
+                <span>Campuses</span>
+              </Link>
+            </div>
+            <div>
+              <Link to='/students'>
+                <span>Students</span>
+              </Link>
+            </div>
           <Switch>
-            <Route path="/campuses" component={Campuses} />
+            <Route path="/campuses" render={() => <Campuses campuses={this.state.campuses} />} />
             <Route path="/students" component={Students} />
           </Switch>
         </div>
       </Router>
-    )
+    );
   }
 }
 
