@@ -12,14 +12,31 @@ export default class Root extends Component {
     };
   }
 
-  componentDidMount () {
+  getCampuses () {
     axios.get('/api/campuses/')
-      .then(res => res.data)
-      .then(campuses => {
-        console.log(campuses)
-        this.setState({ campuses })
-      });
+    .then(res => res.data)
+    .then(campuses => {
+      console.log(campuses)
+      this.setState({ campuses })
+    });
   }
+
+  getStudents () {
+    axios.get('/api/students/')
+    .then(res => res.data)
+    .then(students => {
+      console.log(students)
+      this.setState({ students })
+    });
+  }
+
+  componentDidMount () {
+    this.getCampuses();
+    this.getStudents();
+  }
+
+
+
   render () {
     return (
       <Router>
@@ -35,8 +52,8 @@ export default class Root extends Component {
               </Link>
             </div>
           <Switch>
-            <Route path="/campuses" render={() => <Campuses campuses={this.state.campuses} />} />
-            <Route path="/students" component={Students} />
+            <Route path="/campuses" render={() => <Campuses campuses={this.state.campuses} students={this.state.students}/>} />
+            <Route path="/students" render={() => <Students students={this.state.students} campuses={this.state.campuses}/>} />
           </Switch>
         </div>
       </Router>
