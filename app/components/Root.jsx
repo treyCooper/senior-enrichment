@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Campuses from './Campuses.jsx';
 import Students from './Students.jsx';
-import Home from './Home.jsx';
+import home from './Home.jsx';
 import SingleCampus from './SingleCampus.jsx';
 import SingleStudent from './SingleStudent.jsx';
 import axios from 'axios';
@@ -69,7 +69,7 @@ export default class Root extends Component {
               </Link>
             </div>
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={home} />
             <Route exact path="/campuses" render={() => <Campuses addCampus={this.addCampus} campuses={this.state.campuses} students={this.state.students}/>} />
             <Route path="/campuses/:campusId" component={SingleCampus} />
             <Route exact path="/students" render={() => <Students students={this.state.students} campuses={this.state.campuses}/>} />

@@ -5,8 +5,7 @@ export default class NewStudent extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      inputValue: '',
-      dirty: false
+      inputValue: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -15,8 +14,7 @@ export default class NewStudent extends Component {
   handleChange (evt) {
     const value = evt.target.value;
     this.setState({
-      inputValue: value,
-      dirty: true
+      inputValue: value
     });
   }
 
@@ -26,48 +24,37 @@ export default class NewStudent extends Component {
     const addStudent = this.props.addStudent;
     addStudent(this.state.inputValue);
     this.setState({
-      inputValue: '',
-      dirty: false
+      inputValue: ''
     });
   }
 
   render () {
 
-    const dirty = this.state.dirty;
     const inputValue = this.state.inputValue;
     const handleSubmit = this.handleSubmit;
     const handleChange = this.handleChange;
 
-    let warning = '';
-    if (!inputValue && dirty) warning = 'You must enter a name';
-    else if (inputValue.length > 16) warning = 'Name must be less than 16 characters';
-
     return (
-      <div className="well" style={{marginTop: '20px'}}>
-        <form className="form-horizontal" onSubmit={handleSubmit}>
+      <div style={{marginTop: '20px'}}>
+        <form onSubmit={handleSubmit}>
           <fieldset>
             <legend>Add Student</legend>
-            { warning && <div className="alert alert-warning">{warning}</div> }
-            <div className="form-group">
-              <label className="col-xs-2 control-label">Name</label>
-              <div className="col-xs-10">
+            <div>
+              <label>Name</label>
+              <div>
                 <input
-                  className="form-control"
                   type="text"
                   onChange={handleChange}
                   value={inputValue}
                 />
               </div>
             </div>
-            <div className="form-group">
-              <div className="col-xs-10 col-xs-offset-2">
-                <button
-                  type="submit"
-                  className="btn btn-success"
-                  disabled={!!warning || !inputValue}>
-                  Create Student
-                </button>
-              </div>
+            <div>
+              <button
+                type="submit"
+                >
+                Add Student
+              </button>
             </div>
           </fieldset>
         </form>

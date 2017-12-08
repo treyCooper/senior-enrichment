@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SingleStudent from './SingleStudent.jsx';
-import NewStudent from './newStudent'
+import NewStudent from './NewStudent'
 import { Link } from 'react-router-dom';
 //import store, {} from '../store';
 

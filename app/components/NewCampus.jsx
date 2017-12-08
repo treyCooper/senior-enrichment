@@ -6,8 +6,7 @@ export default class NewCampus extends Component {
     super(props);
     this.state = {
       name: '',
-      dirty: false,
-      imageUrl: null,
+      imageUrl: '',
       description: ''
     };
     this.handleChange = this.handleChange.bind(this);
@@ -18,44 +17,39 @@ export default class NewCampus extends Component {
     const value = evt.target.value;
     console.log(evt.target.name)
     this.setState({
-      [evt.target.name]: value,
-      dirty: true
+      [evt.target.name]: value
     });
   }
 
   handleSubmit (evt) {
     evt.preventDefault();
-
+    let imgUrl;
+    !this.state.imageUrl.length ?  imgUrl = undefined : imgUrl = this.state.imageUrl
+    console.log(imgUrl)
     const addCampus = this.props.addCampus;
-    addCampus(this.state.name, this.state.imageUrl, this.state.description);
+    addCampus(this.state.name, imgUrl, this.state.description);
     this.setState({
       name: '',
-      dirty: false,
+      imgUrl: '',
       description: ''
     });
   }
 
   render () {
     const description = this.state.description
-    const dirty = this.state.dirty;
     const name = this.state.name;
     const imageUrl = this.state.imageUrl;
     const handleSubmit = this.handleSubmit;
     const handleChange = this.handleChange;
 
-    let warning = '';
-    if (!name && dirty) warning = 'You must enter a name';
-    else if (name.length > 16) warning = 'Name must be less than 16 characters';
-
     return (
-      <div className="well" style={{marginTop: '20px'}}>
-        <form className="form-horizontal" onSubmit={handleSubmit}>
+      <div style={{marginTop: '20px'}}>
+        <form onSubmit={handleSubmit}>
           <fieldset>
             <legend>Add Campus</legend>
-            { warning && <div className="alert alert-warning">{warning}</div> }
-            <div className="form-group">
-              <label className="col-xs-2 control-label">Name</label>
-              <div className="col-xs-10">
+            <div>
+              <label>Name</label>
+              <div>
                 <input
                   name="name"
                   type="text"
@@ -64,9 +58,9 @@ export default class NewCampus extends Component {
                 />
               </div>
             </div>
-            <div className="form-group">
-              <label className="col-xs-2 control-label">Image URL</label>
-                <div className="col-xs-10">
+            <div>
+              <label>Image URL</label>
+                <div>
                   <input
                     name="imageUrl"
                     type="text"
@@ -75,9 +69,9 @@ export default class NewCampus extends Component {
                   />
               </div>
             </div>
-            <div className="form-group">
-              <label className="col-xs-2 control-label">Description</label>
-                <div className="col-xs-10">
+            <div>
+              <label>Description</label>
+                <div>
                   <input
                     name="description"
                     type="text"
@@ -86,15 +80,12 @@ export default class NewCampus extends Component {
                   />
               </div>
             </div>
-            <div className="form-group">
-              <div className="col-xs-10 col-xs-offset-2">
-                <button
-                  type="submit"
-                  className="btn btn-success"
-                  disabled={!!warning || !name}>
-                  Create Campus
-                </button>
-              </div>
+            <div>
+              <button
+                type="submit"
+                >
+                Create Campus
+              </button>
             </div>
           </fieldset>
         </form>
