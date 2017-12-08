@@ -5,8 +5,10 @@ export default class NewCampus extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      inputValue: '',
-      dirty: false
+      name: '',
+      dirty: false,
+      imageUrl: null,
+      description: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -14,8 +16,9 @@ export default class NewCampus extends Component {
 
   handleChange (evt) {
     const value = evt.target.value;
+    console.log(evt.target.name)
     this.setState({
-      inputValue: value,
+      [evt.target.name]: value,
       dirty: true
     });
   }
@@ -24,23 +27,25 @@ export default class NewCampus extends Component {
     evt.preventDefault();
 
     const addCampus = this.props.addCampus;
-    addCampus(this.state.inputValue);
+    addCampus(this.state.name, this.state.imageUrl, this.state.description);
     this.setState({
-      inputValue: '',
-      dirty: false
+      name: '',
+      dirty: false,
+      description: ''
     });
   }
 
   render () {
-
+    const description = this.state.description
     const dirty = this.state.dirty;
-    const inputValue = this.state.inputValue;
+    const name = this.state.name;
+    const imageUrl = this.state.imageUrl;
     const handleSubmit = this.handleSubmit;
     const handleChange = this.handleChange;
 
     let warning = '';
-    if (!inputValue && dirty) warning = 'You must enter a name';
-    else if (inputValue.length > 16) warning = 'Name must be less than 16 characters';
+    if (!name && dirty) warning = 'You must enter a name';
+    else if (name.length > 16) warning = 'Name must be less than 16 characters';
 
     return (
       <div className="well" style={{marginTop: '20px'}}>
@@ -52,11 +57,33 @@ export default class NewCampus extends Component {
               <label className="col-xs-2 control-label">Name</label>
               <div className="col-xs-10">
                 <input
-                  className="form-control"
+                  name="name"
                   type="text"
                   onChange={handleChange}
-                  value={inputValue}
+                  value={name}
                 />
+              </div>
+            </div>
+            <div className="form-group">
+              <label className="col-xs-2 control-label">Image URL</label>
+                <div className="col-xs-10">
+                  <input
+                    name="imageUrl"
+                    type="text"
+                    onChange={handleChange}
+                    value={imageUrl}
+                  />
+              </div>
+            </div>
+            <div className="form-group">
+              <label className="col-xs-2 control-label">Description</label>
+                <div className="col-xs-10">
+                  <input
+                    name="description"
+                    type="text"
+                    onChange={handleChange}
+                    value={description}
+                  />
               </div>
             </div>
             <div className="form-group">
@@ -64,7 +91,7 @@ export default class NewCampus extends Component {
                 <button
                   type="submit"
                   className="btn btn-success"
-                  disabled={!!warning || !inputValue}>
+                  disabled={!!warning || !name}>
                   Create Campus
                 </button>
               </div>

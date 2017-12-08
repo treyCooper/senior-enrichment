@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Campuses from './Campuses.jsx';
-import addCampus from './addCampus';
 import Students from './Students.jsx';
 import Home from './Home.jsx';
 import SingleCampus from './SingleCampus.jsx';
@@ -14,6 +13,7 @@ export default class Root extends Component {
       campuses: [],
       students: []
     };
+    this.addCampus = this.addCampus.bind(this);
   }
 
   getCampuses () {
@@ -39,6 +39,14 @@ export default class Root extends Component {
     this.getStudents();
   }
 
+  addCampus (name, imageUrl, description) {
+    axios.post('/api/campuses', { name, imageUrl, description })
+      .then(res => res.data)
+      .then(campus => {
+        this.setState({ campuses: [...this.state.campuses, campus] })
+      });
+  }
+
 
 
   render () {
@@ -62,7 +70,7 @@ export default class Root extends Component {
             </div>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/campuses" render={() => <Campuses campuses={this.state.campuses} students={this.state.students}/>} />
+            <Route exact path="/campuses" render={() => <Campuses addCampus={this.addCampus} campuses={this.state.campuses} students={this.state.students}/>} />
             <Route path="/campuses/:campusId" component={SingleCampus} />
             <Route exact path="/students" render={() => <Students students={this.state.students} campuses={this.state.campuses}/>} />
             <Route path="/students/:studentId" component={SingleStudent} />

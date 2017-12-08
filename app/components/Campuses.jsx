@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SingleCampus from './SingleCampus.jsx';
 import { Link } from 'react-router-dom';
-import NewCampus from './addCampus.jsx';
+import NewCampus from './NewCampus.jsx';
 // import store, {} from '../store';
 
 export default class Campuses extends Component {
@@ -29,7 +29,7 @@ export default class Campuses extends Component {
           ))
         }
         <hr/>
-        <NewCampus />
+        <NewCampus addCampus={this.props.addCampus}/>
       </div>
     )
   }
