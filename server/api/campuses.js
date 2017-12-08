@@ -32,6 +32,7 @@ router.put('/:campusId', function (req, res,next){
 
 router.delete('/:campusId', function(req, res, next){
   const id = +req.params.campusId;
+  console.log(id)
   Campus.destroy({where: { id } })
   .then(() => res.status(204).end())
   .catch(next);
