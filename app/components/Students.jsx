@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SingleStudent from './SingleStudent.jsx';
+import NewStudent from './newStudent'
 import { Link } from 'react-router-dom';
 //import store, {} from '../store';
 
@@ -27,6 +28,8 @@ export default class Students extends Component {
             </div>
           ))
         }
+          <hr/>
+        <NewStudent />
       </div>
     )
   }
