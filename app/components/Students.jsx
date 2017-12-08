@@ -11,7 +11,7 @@ export default class Students extends Component {
 
   render () {
     const students = this.props.students
-    const campuses = this.props.campuses
+    //const campuses = this.props.campuses
     return (
       <div>
         <h3>Students</h3>

@@ -12,7 +12,7 @@ export default class Campuses extends Component {
 
   render () {
     const campuses = this.props.campuses
-    const students = this.props.students
+    //const students = this.props.students
     return (
       <div>
         <h3>Campuses</h3>
