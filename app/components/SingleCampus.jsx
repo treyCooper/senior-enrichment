@@ -6,7 +6,6 @@ export default class SingleCampus extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      dirty: false,
       name: '',
       imageUrl: '',
       description: '',
@@ -23,8 +22,7 @@ export default class SingleCampus extends Component {
     const value = evt.target.value;
     console.log(evt.target.name)
     this.setState({
-      [evt.target.name]: value,
-      dirty: true
+      [evt.target.name]: value
     });
   }
   updateCampusInfo (name, imageUrl, description){
@@ -68,7 +66,6 @@ export default class SingleCampus extends Component {
   render () {
     const students = this.state.students
     const description = this.state.description
-    const dirty = this.state.dirty;
     const name = this.state.name;
     const imageUrl = this.state.imageUrl;
     const handleChange = this.handleChange

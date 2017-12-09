@@ -5,25 +5,58 @@ export default class SingleStudent extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      student: {},
-      campus: {}
+      id: '',
+      firstName: '',
+      lastName: '',
+      fullName: '',
+      email: '',
+      gpa: '',
+      campusId: '',
+      campus: {},
+      campuses: []
     }
     // this.state = store.getState
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+
+  handleChange (evt) {
+    const value = evt.target.value;
+    console.log(evt.target.name)
+    this.setState({
+      [evt.target.name]: value
+    });
+  }
+  updateStudentInfo(firstName, lastName, email, gpa, campusId){
+    axios.put(`/api/students/${this.state.id}`, { firstName, lastName, email, gpa, campusId })
+    .then(res => res.data)
+    .then(student => {
+    const  { firstName, lastName, email, gpa, campusId } = student
+      this.setState({ firstName, lastName, email, gpa, campusId })
+      window.location.reload()
+    });
+  }
+  handleSubmit (evt) {
+    evt.preventDefault();
+    this.updateStudentInfo(this.state.firstName, this.state.lastName, this.state.email, this.state.gpa, this.state.campusId)
+  }
+
   fetchStudent (studentId) {
     axios.get(`/api/students/${studentId}`)
       .then(res => res.data)
-      .then(student => this.setState({
-        student
-      }));
+      .then(student => {
+        const  { id, firstName, lastName, fullName, email, gpa, campusId } = student
+          this.setState({id, firstName, lastName, fullName, email, gpa, campusId })
+        });
   }
   getCampuses () {
     axios.get('/api/campuses/')
     .then(res => res.data)
     .then(campuses => {
-      const campus = campuses.filter(campus => campus.id === this.state.student.campusId)[0]
+      const campus = campuses.filter(campus => campus.id === this.state.campusId)[0]
       console.log('campuses', campus)
-      this.setState({ campus })
+      this.setState({ campus, campuses })
     });
   }
   componentDidMount () {
@@ -32,18 +65,91 @@ export default class SingleStudent extends Component {
     this.getCampuses();
   }
   render () {
-    const student = this.state.student;
+    const firstName = this.state.firstName;
+    const lastName = this.state.lastName;
+    const fullName = this.state.fullName
+    const email = this.state.email;
+    const gpa = this.state.gpa;
+    const handleSubmit = this.handleSubmit;
+    const handleChange = this.handleChange;
     console.log(this.state)
     return (
       <div>
-        <h3>{ student.fullName }</h3>
+        <h3>{ fullName }</h3>
         <ul>
-          <li>email: {student.email}</li>
-          <li>gpa: {student.gpa}</li>
+          <li>email: {email}</li>
+          <li>gpa: {gpa}</li>
 
           <li>campus: <Link to={`/campuses/${this.state.campus.id}`}>{this.state.campus.name}</Link></li>
 
         </ul>
+        <form onSubmit={handleSubmit}>
+          <fieldset>
+            <legend>Update Student Info</legend>
+            <div>
+              <label>First Name</label>
+              <div>
+                <input
+                  name="firstName"
+                  type="text"
+                  onChange={handleChange}
+                  value={firstName}
+                />
+              </div>
+            </div>
+            <div>
+              <label>Last Name</label>
+              <div>
+                <input
+                  name="lastName"
+                  type="text"
+                  onChange={handleChange}
+                  value={lastName}
+                />
+              </div>
+            </div>
+            <div>
+              <label>Email</label>
+              <div>
+                <input
+                  name="email"
+                  type="text"
+                  onChange={handleChange}
+                  value={email}
+                />
+              </div>
+            </div>
+            <div>
+              <label>GPA</label>
+              <div>
+                <input
+                  name="gpa"
+                  type="text"
+                  onChange={handleChange}
+                  value={gpa}
+                />
+              </div>
+            </div>
+            <div>
+              <label>Campus</label>
+              <div>
+                <select onChange={this.handleChange} value={this.state.campusId} name="campusId">
+                  {this.state.campuses.map(campus => <option key={campus.id} name="campusId" value={campus.id}>
+                    {campus.name}
+                    </option>
+                  )}
+                </select>
+              </div>
+            </div>
+            <div>
+              <button
+                type="submit"
+                >
+                Update Student Info
+              </button>
+            </div>
+          </fieldset>
+        </form>
       </div>
     )
   }
