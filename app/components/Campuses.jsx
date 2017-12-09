@@ -29,11 +29,12 @@ export default class Campuses extends Component {
             <div key={campus.id}>
               <Link to={`/campuses/${campus.id}`}>
                 <img src={ campus.imageUrl } />
-                <h5>
+
                   <span>{ campus.name }</span>
-                </h5>
+
               </Link>
               <button onClick={event => deleteCampus(event, campus.id)}>delete campus</button>
+
             </div>
           ))
         }

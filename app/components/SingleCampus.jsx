@@ -31,6 +31,7 @@ export default class SingleCampus extends Component {
     .then(campus => {
     const  { name, imageUrl, description } = campus
       this.setState({ name, imageUrl, description })
+      window.location.reload()
     });
   }
 
