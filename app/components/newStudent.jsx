@@ -5,7 +5,11 @@ export default class NewStudent extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      inputValue: ''
+      firstName: '',
+      lastName: '',
+      email: '',
+      gpa: '',
+      selectedCampus: 20
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -13,8 +17,9 @@ export default class NewStudent extends Component {
 
   handleChange (evt) {
     const value = evt.target.value;
+    console.log(evt.target.name)
     this.setState({
-      inputValue: value
+      [evt.target.name]: value
     });
   }
 
@@ -22,15 +27,22 @@ export default class NewStudent extends Component {
     evt.preventDefault();
 
     const addStudent = this.props.addStudent;
-    addStudent(this.state.inputValue);
+    addStudent(this.state.firstName, this.state.lastName, this.state.email, this.state.gpa, this.state.selectedCampus);
     this.setState({
-      inputValue: ''
+      firstName: '',
+      lastName: '',
+      email: '',
+      gpa: '',
+      selectedCampus: 0
     });
   }
 
   render () {
 
-    const inputValue = this.state.inputValue;
+    const firstName = this.state.firstName;
+    const lastName = this.state.lastName;
+    const email = this.state.email;
+    const gpa = this.state.gpa;
     const handleSubmit = this.handleSubmit;
     const handleChange = this.handleChange;
 
@@ -40,13 +52,58 @@ export default class NewStudent extends Component {
           <fieldset>
             <legend>Add Student</legend>
             <div>
-              <label>Name</label>
+              <label>First Name</label>
               <div>
                 <input
+                  name="firstName"
                   type="text"
                   onChange={handleChange}
-                  value={inputValue}
+                  value={firstName}
                 />
+              </div>
+            </div>
+            <div>
+              <label>Last Name</label>
+              <div>
+                <input
+                  name="lastName"
+                  type="text"
+                  onChange={handleChange}
+                  value={lastName}
+                />
+              </div>
+            </div>
+            <div>
+              <label>Email</label>
+              <div>
+                <input
+                  name="email"
+                  type="text"
+                  onChange={handleChange}
+                  value={email}
+                />
+              </div>
+            </div>
+            <div>
+              <label>GPA</label>
+              <div>
+                <input
+                  name="gpa"
+                  type="text"
+                  onChange={handleChange}
+                  value={gpa}
+                />
+              </div>
+            </div>
+            <div>
+              <label>Campus</label>
+              <div>
+                <select onChange={this.handleChange} value={this.state.selectedCampus} name="selectedCampus">
+                  {this.props.campuses.map(campus => <option key={campus.id} name="selectedCampus" value={campus.id}>
+                    {campus.name}
+                    </option>
+                  )}
+                </select>
               </div>
             </div>
             <div>

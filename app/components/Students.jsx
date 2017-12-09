@@ -29,7 +29,7 @@ export default class Students extends Component {
           ))
         }
           <hr/>
-        <NewStudent />
+        <NewStudent addStudent={this.props.addStudent} campuses={this.props.campuses}/>
       </div>
     )
   }

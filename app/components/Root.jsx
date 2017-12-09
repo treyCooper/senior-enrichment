@@ -14,6 +14,7 @@ export default class Root extends Component {
       students: []
     };
     this.addCampus = this.addCampus.bind(this);
+    this.addStudent = this.addStudent.bind(this);
   }
 
   getCampuses () {
@@ -47,7 +48,13 @@ export default class Root extends Component {
       });
   }
 
-
+  addStudent (firstName, lastName, email, gpa, campusId) {
+    axios.post('/api/students', { firstName, lastName, email, gpa, campusId })
+      .then(res => res.data)
+      .then(student => {
+        this.setState({ students: [...this.state.students, student] })
+      });
+  }
 
   render () {
     return (
@@ -72,7 +79,7 @@ export default class Root extends Component {
             <Route exact path="/" component={home} />
             <Route exact path="/campuses" render={() => <Campuses addCampus={this.addCampus} campuses={this.state.campuses} students={this.state.students}/>} />
             <Route path="/campuses/:campusId" component={SingleCampus} />
-            <Route exact path="/students" render={() => <Students students={this.state.students} campuses={this.state.campuses}/>} />
+            <Route exact path="/students" render={() => <Students addStudent={this.addStudent} students={this.state.students} campuses={this.state.campuses}/>} />
             <Route path="/students/:studentId" component={SingleStudent} />
           </Switch>
         </div>
