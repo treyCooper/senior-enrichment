@@ -2,7 +2,6 @@
 const Student = require('./student');
 const Campus = require('./campus')
 const db = require('../index');
-
 Campus.hasMany(Student);
 Student.belongsTo(Campus);
 // Require all the models

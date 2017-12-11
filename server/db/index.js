@@ -6,7 +6,7 @@ const models = require('./models')
 console.log(chalk.yellow("Opening database connection"));
 
 // create the database instance that can be used in other database files
-console.log(models)
+
 module.exports = new Sequelize(`postgres://localhost:5432/${pkg.name}`, {
   logging: false, // so we don't see all the SQL query made
 });

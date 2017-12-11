@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Student = require('../db/models/student');
-// const  Campus  = require('../db/models/campus')
+const  Campus  = require('../db/models/campus')
 
 module.exports = router;
 
@@ -28,7 +28,7 @@ router.put('/:studentId', function (req, res,next){
   const studentId = +req.params.studentId
   Student.findById(studentId)
   .then(student => student.update(req.body))
-  .then(res.status(200).send())
+  .then(res.status(201).send())
   .catch(next);
 });
 
