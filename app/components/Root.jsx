@@ -21,18 +21,18 @@ export default class Root extends Component {
     axios.get('/api/campuses/')
     .then(res => res.data)
     .then(campuses => {
-      console.log(campuses)
       this.setState({ campuses })
-    });
+    })
+    .catch(console.error);
   }
 
   getStudents () {
     axios.get('/api/students/')
     .then(res => res.data)
     .then(students => {
-      console.log(students)
       this.setState({ students })
-    });
+    })
+    .catch(console.error);
   }
 
   componentDidMount () {
@@ -45,7 +45,8 @@ export default class Root extends Component {
       .then(res => res.data)
       .then(campus => {
         this.setState({ campuses: [...this.state.campuses, campus] })
-      });
+      })
+      .catch(console.error);
   }
 
   addStudent (firstName, lastName, email, gpa, campusId) {
@@ -53,7 +54,8 @@ export default class Root extends Component {
       .then(res => res.data)
       .then(student => {
         this.setState({ students: [...this.state.students, student] })
-      });
+      })
+      .catch(console.error);
   }
 
   render () {

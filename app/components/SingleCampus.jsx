@@ -12,7 +12,6 @@ export default class SingleCampus extends Component {
       id: 0,
       students: []
     }
-    // this.state = store.getState
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateCampusInfo = this.updateCampusInfo.bind(this);
@@ -20,11 +19,11 @@ export default class SingleCampus extends Component {
 
   handleChange (evt) {
     const value = evt.target.value;
-    console.log(evt.target.name)
     this.setState({
       [evt.target.name]: value
     });
   }
+
   updateCampusInfo (name, imageUrl, description){
     axios.put(`/api/campuses/${this.state.id}`, { name, imageUrl, description })
     .then(res => res.data)
@@ -32,37 +31,38 @@ export default class SingleCampus extends Component {
     const  { name, imageUrl, description } = campus
       this.setState({ name, imageUrl, description })
       window.location.reload()
-    });
+    })
+    .catch(console.error);
   }
 
   handleSubmit (evt) {
     evt.preventDefault();
-
     const updateCampusInfo = this.updateCampusInfo;
     updateCampusInfo(this.state.name, this.state.imageUrl, this.state.description);
-
   }
+
   fetchCampus (campusId) {
     axios.get(`/api/campuses/${campusId}`)
       .then(res => res.data)
       .then(campus => {
         const  { name, imageUrl, description, id } = campus
           this.setState({ name, imageUrl, description, id })
-        });
+        })
+        .then(() => this.getStudents())
+        .catch(console.error);
   }
   getStudents () {
     axios.get('/api/students/')
     .then(res => res.data)
     .then(students => {
       students = students.filter(student => student.campusId === this.state.id)
-      console.log('students', students)
       this.setState({ students })
-    });
+    })
+    .catch(console.error);
   }
   componentDidMount () {
     const campusId = this.props.match.params.campusId;
     this.fetchCampus(campusId);
-    this.getStudents();
   }
   render () {
     const students = this.state.students
@@ -73,21 +73,17 @@ export default class SingleCampus extends Component {
     const handleSubmit = this.handleSubmit
     const campus = this.state.campus;
 
-    console.log(this.props)
-
     return (
       <div>
-        <h3>{ name }</h3>
+        <h2>{ name }</h2>
         <img src={ imageUrl } />
         <p>{description}</p>
-        <h3>Students</h3>
+        <h2>Students</h2>
         {
           students.map(student => (
             <div key={student.id}>
               <Link to={`/students/${student.id}`}>
-                <h5>
-                  <span>{ student.fullName }</span>
-                </h5>
+                  <p>{ student.fullName }</p>
               </Link>
             </div>
           ))
@@ -130,9 +126,7 @@ export default class SingleCampus extends Component {
             </div>
             <div>
               <div>
-                <button
-                  type="submit"
-                  >
+                <button type="submit">
                   Update Campus Info
                 </button>
               </div>

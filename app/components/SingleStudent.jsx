@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+
 export default class SingleStudent extends Component {
   constructor (props) {
     super(props);
@@ -15,19 +16,17 @@ export default class SingleStudent extends Component {
       campus: {},
       campuses: []
     }
-    // this.state = store.getState
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-
   handleChange (evt) {
     const value = evt.target.value;
-    console.log(evt.target.name)
     this.setState({
       [evt.target.name]: value
     });
   }
+
   updateStudentInfo(firstName, lastName, email, gpa, campusId){
     axios.put(`/api/students/${this.state.id}`, { firstName, lastName, email, gpa, campusId })
     .then(res => res.data)
@@ -35,7 +34,8 @@ export default class SingleStudent extends Component {
     const  { firstName, lastName, email, gpa, campusId } = student
       this.setState({ firstName, lastName, email, gpa, campusId })
       window.location.reload()
-    });
+    })
+    .catch(console.error);
   }
   handleSubmit (evt) {
     evt.preventDefault();
@@ -48,21 +48,22 @@ export default class SingleStudent extends Component {
       .then(student => {
         const  { id, firstName, lastName, fullName, email, gpa, campusId } = student
           this.setState({id, firstName, lastName, fullName, email, gpa, campusId })
-        });
+        })
+        .then(() => this.getCampuses())
+        .catch(console.error);
   }
   getCampuses () {
     axios.get('/api/campuses/')
     .then(res => res.data)
     .then(campuses => {
       const campus = campuses.filter(campus => campus.id === this.state.campusId)[0]
-      console.log('campuses', campus)
       this.setState({ campus, campuses })
-    });
+    })
+    .catch(console.error);
   }
   componentDidMount () {
     const studentId = this.props.match.params.studentId;
     this.fetchStudent(studentId);
-    this.getCampuses();
   }
   render () {
     const firstName = this.state.firstName;
@@ -72,16 +73,13 @@ export default class SingleStudent extends Component {
     const gpa = this.state.gpa;
     const handleSubmit = this.handleSubmit;
     const handleChange = this.handleChange;
-    console.log(this.state)
     return (
       <div>
         <h3>{ fullName }</h3>
         <ul>
           <li>email: {email}</li>
           <li>gpa: {gpa}</li>
-
           <li>campus: <Link to={`/campuses/${this.state.campus.id}`}>{this.state.campus.name}</Link></li>
-
         </ul>
         <form onSubmit={handleSubmit}>
           <fieldset>
@@ -142,9 +140,7 @@ export default class SingleStudent extends Component {
               </div>
             </div>
             <div>
-              <button
-                type="submit"
-                >
+              <button type="submit">
                 Update Student Info
               </button>
             </div>

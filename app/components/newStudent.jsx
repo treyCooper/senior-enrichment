@@ -9,7 +9,7 @@ export default class NewStudent extends Component {
       lastName: '',
       email: '',
       gpa: '',
-      selectedCampus: 20
+      selectedCampus: 0
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,7 +17,6 @@ export default class NewStudent extends Component {
 
   handleChange (evt) {
     const value = evt.target.value;
-    console.log(evt.target.name)
     this.setState({
       [evt.target.name]: value
     });
@@ -25,7 +24,6 @@ export default class NewStudent extends Component {
 
   handleSubmit (evt) {
     evt.preventDefault();
-
     const addStudent = this.props.addStudent;
     addStudent(this.state.firstName, this.state.lastName, this.state.email, this.state.gpa, this.state.selectedCampus);
     this.setState({
@@ -107,9 +105,7 @@ export default class NewStudent extends Component {
               </div>
             </div>
             <div>
-              <button
-                type="submit"
-                >
+              <button type="submit">
                 Add Student
               </button>
             </div>

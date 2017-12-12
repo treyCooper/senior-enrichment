@@ -8,7 +8,7 @@ module.exports = db.define('campus', {
   },
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'https://designerdoginfo.files.wordpress.com/2013/01/puggle-puppy-4.jpg?w=584',
+    defaultValue: 'http://nineplanets.org/images/jupiter.jpg',
     allowNull: false
   },
   description: {

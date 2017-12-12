@@ -15,7 +15,6 @@ export default class NewCampus extends Component {
 
   handleChange (evt) {
     const value = evt.target.value;
-    console.log(evt.target.name)
     this.setState({
       [evt.target.name]: value
     });
@@ -25,7 +24,6 @@ export default class NewCampus extends Component {
     evt.preventDefault();
     let imgUrl;
     !this.state.imageUrl.length ?  imgUrl = undefined : imgUrl = this.state.imageUrl
-    console.log(imgUrl)
     const addCampus = this.props.addCampus;
     addCampus(this.state.name, imgUrl, this.state.description);
     this.setState({
@@ -81,9 +79,7 @@ export default class NewCampus extends Component {
               </div>
             </div>
             <div>
-              <button
-                type="submit"
-                >
+              <button type="submit">
                 Create Campus
               </button>
             </div>
